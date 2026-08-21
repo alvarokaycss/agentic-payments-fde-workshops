@@ -28,6 +28,7 @@ export function useChatSocket() {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const socketRef = useRef<WebSocket | null>(null);
   const usernameRef = useRef("");
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
 
   useEffect(() => {
     const socket = new WebSocket(WS_URL);
@@ -39,6 +40,11 @@ export function useChatSocket() {
 
     socket.addEventListener("message", (event) => {
       const serverEvent = JSON.parse(event.data as string) as ServerEvent;
+
+      if (serverEvent.type === "presence") {
+        setOnlineUsers(serverEvent.usernames);
+        return;
+      }
 
       setBubbles((current) => {
         switch (serverEvent.type) {
@@ -53,7 +59,7 @@ export function useChatSocket() {
                 id: serverEvent.id,
                 username: serverEvent.username,
                 text: serverEvent.text,
-                mine: serverEvent.username === usernameRef.current,
+                mine: serverEvent.username === usernameRef.current, // TODO: Comparar por ID
               },
             ];
 
@@ -93,5 +99,5 @@ export function useChatSocket() {
     socketRef.current?.send(JSON.stringify({ type: "chat", text }));
   }, []);
 
-  return { status, bubbles, join, sendChat };
+  return { status, bubbles, join, sendChat, onlineUsers };
 }
