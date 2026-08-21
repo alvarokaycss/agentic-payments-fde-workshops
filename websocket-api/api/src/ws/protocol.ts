@@ -54,6 +54,7 @@ export type SystemEvent = {
 export type ChatEvent = {
   type: "chat";
   id: string;
+  userId: string;
   username: string;
   text: string;
   createdAt: string;
@@ -63,6 +64,11 @@ export type PresenceEvent = {
   type: "presence";
   usernames: string[];
 };
+
+export type JoinedEvent = {
+  type: "joined";
+  userId: string;
+}
 
 /**
  * The agent's reply streams as three events - start, one or more chunks,
@@ -74,4 +80,4 @@ export type AgentStartEvent = { type: "agent_start"; id: string };
 export type AgentChunkEvent = { type: "agent_chunk"; id: string; text: string };
 export type AgentEndEvent = { type: "agent_end"; id: string };
 
-export type ServerEvent = SystemEvent | ChatEvent | AgentStartEvent | AgentChunkEvent | AgentEndEvent | PresenceEvent;
+export type ServerEvent = SystemEvent | ChatEvent | AgentStartEvent | AgentChunkEvent | AgentEndEvent | PresenceEvent | JoinedEvent;
