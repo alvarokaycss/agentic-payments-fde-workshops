@@ -3,7 +3,7 @@ import { useChatSocket } from "./useChatSocket";
 import type { Bubble, ConnectionStatus } from "./types";
 
 function App() {
-  const { status, bubbles, join, sendChat } = useChatSocket();
+  const { status, bubbles, join, sendChat, onlineUsers } = useChatSocket();
   const [username, setUsername] = useState("");
   const [hasJoined, setHasJoined] = useState(false);
   const [draft, setDraft] = useState("");
@@ -56,6 +56,7 @@ function App() {
     <main className="container chat-screen">
       <header className="chat-header">
         <h1>Realtime Chat</h1>
+        <small>Usuários Online: {onlineUsers.length}</small>
         <span className={`status status-${status}`}>{statusLabel(status)}</span>
       </header>
 

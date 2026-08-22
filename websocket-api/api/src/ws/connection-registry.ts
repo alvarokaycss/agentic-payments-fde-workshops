@@ -36,6 +36,10 @@ export class ConnectionRegistry {
     return this.clients.size;
   }
 
+  get connectedClients(): ChatClient[] {
+    return Array.from(this.clients.values());
+  }
+
   /** Sends `event` to every connected client whose socket is still open. */
   broadcast(event: ServerEvent): void {
     const payload = JSON.stringify(event);
