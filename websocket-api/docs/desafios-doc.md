@@ -8,3 +8,7 @@ em tempo real em todas elas, tanto ao entrar quanto ao sair.
 - Adicionado `userId` no `join` e no `chat` para diferenciar mensagens mesmo se houver usuários com o mesmo nome.
 - Contador de usuários online no topo do chat.
 ---
+
+**Como ficou no código - Solução duplicação de mensagens:**
+- **Servidor (`socket-server.ts`):** envia `{ type: "joined", userId }` no `join` e inclui `userId` no broadcast de `{ type: "chat" }`.
+- **Frontend (`useChatSocket.ts`):** salva `userIdRef.current = serverEvent.userId` e compara `mine: serverEvent.userId === userIdRef.current`.
